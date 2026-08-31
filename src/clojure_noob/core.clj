@@ -85,7 +85,6 @@
   "expects a seq of maps that have a :name and :size"
   [asym-body-parts]
   (loop [remaining-asym-parts asym-body-parts final-body-parts []]
-    (println "remains >> " remaining-asym-parts " and asym body >> " asym-body-parts)
     (if (empty? remaining-asym-parts)
       final-body-parts
       (let [[part & remaining] remaining-asym-parts]
@@ -124,7 +123,6 @@
   [nums target]
   (loop [idx 0
          seen {}]
-    (println "you check >> " idx " asd " seen)
     (if (< idx (count nums))
       (let [num (nth nums idx)
             complement (- target num)]
@@ -135,6 +133,75 @@
       nil)))
 
 (two-sum [2 11 7 15] 9)
+
+;; continue
+(defn hit
+  "this will hit the body parts"
+  [asym-body-parts]
+  (let [sym-parts (better-symmetrize-body-parts asym-body-parts)
+        body-part-size-sum (reduce + (map :size sym-parts))
+        target (rand body-part-size-sum)]
+    (loop [[part & rest] sym-parts
+           accumulated-size (:size part)]
+      (if (> accumulated-size target)
+        part
+        (let [head (first rest)]
+          (recur rest
+                 (+ accumulated-size (:size head))))))))
+
+(hit asym-hobbit-body-parts)
+
+;; exercise 1
+;; write a function that takes a number and adds 100 to it
+(defn inc100
+  "will inc + 100"
+  [num]
+  (+ 100 num))
+
+(inc100 100)
+
+;; write a function, [dec-maker] that works
+;; exactly like the function [inc-maker]
+;; except with subtraction
+(defn dec-maker
+  "decrease func"
+  [num]
+  #(- % num))
+
+;; above is the shorthand for this
+(defn dec-maker-verbose
+  "verbose decrease func"
+  [num]
+  (fn [decreaser]
+    (- decreaser num)))
+
+(def dec9 (dec-maker 9))
+(def dec10 (dec-maker-verbose 10))
+(dec9 100)
+(dec10 100)
+
+;; write a function [mapset] that works like a [map]
+;; except the return value is a set
+(defn mapset
+  "return a set from a vector"
+  [cb vec]
+  (into (sorted-set) (map cb vec)))
+
+(mapset inc [1 1 2 2])
+
+;; write a function that is similart to [symmetrize-body-parts]
+;; except that it has to work with radial symmetry. [5 body parts]
+;; [REVISIT]
+
+;; write a function that generalizes [symmetrize-body-parts]
+;; et (function you made above) and it should accept collection
+;; and number of the parts of matchibg body (so not just 5 or 2)
+;; but can be anything.
+;; [REVISIT]
+
+
+
+
 
 
 
