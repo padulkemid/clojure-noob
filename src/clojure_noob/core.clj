@@ -116,6 +116,28 @@
                   (set [part (matching-part part)])))
           []
           asym-body-parts))
+
 (better-symmetrize-body-parts asym-hobbit-body-parts)
+
+(defn two-sum
+  "2 sum in clojure from oop perspective"
+  [nums target]
+  (loop [idx 0
+         seen {}]
+    (println "you check >> " idx " asd " seen)
+    (if (< idx (count nums))
+      (let [num (nth nums idx)
+            complement (- target num)]
+        (if (contains? seen complement)
+          [(seen complement) idx]
+          (recur (inc idx)
+                 (assoc seen num idx))))
+      nil)))
+
+(two-sum [2 11 7 15] 9)
+
+
+
+
 
 
