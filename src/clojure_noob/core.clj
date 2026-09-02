@@ -150,6 +150,7 @@
                  (+ accumulated-size (:size head))))))))
 
 (hit asym-hobbit-body-parts)
+(map inc [1 2 3 4])
 
 ;; exercise 1
 ;; write a function that takes a number and adds 100 to it
