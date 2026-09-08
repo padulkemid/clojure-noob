@@ -10,7 +10,7 @@
 
 (println "you guess it")
 
-(defn train [] (println "tuuuuut"))
+(defn tralo [] (println "tuuuuut"))
 
 (+ 1 2 3 4)
 
@@ -163,7 +163,7 @@
 
 ;; write a function, [dec-maker] that works
 ;; exactly like the function [inc-maker]
-;; except with subtraction
+;; except with subtractionz
 (defn dec-maker
   "decrease func"
   [num]
@@ -200,12 +200,68 @@
 ;; but can be anything.
 ;; [REVISIT]
 
+;;; Chapter 4
+;; colls
+(seq '(1 2 3))
+(seq [1 2 3])
+(seq #{1 2 3})
+(seq {:first-name "sukkari" :last-name "maria"})
 
+;; so far I just know how to operate [map] with this
+(map inc '(1 2 3))
 
+;; you can actually do this
+(into #{} (map str ["a" "b" "c"] ["A" "B" "C"]))
 
+(def human-consumtpion [8.1 7.2 2 7])
+(def critter-consumtpion [0.0 0.3 5 1.2])
+(defn unify-diet-data
+  "this is the merged diet data of human and critter"
+  [human critter]
+  {:human human :critter critter})
 
+(map unify-diet-data human-consumtpion critter-consumtpion)
+(def sum #(reduce + %))
+(def avg #(/ (sum %) (count %)))
+(defn stats
+  "it will map the numbers into how much is the sum, count,
+  and average"
+  [numbers]
+  (let [[sum count avg] (map  #(% numbers) [sum count avg])]
+    {:sum sum :count count :avg avg}))
 
+(stats [3 4 10])
 
+;; using map to get values from key
+(def identities
+  [{:alias "batman" :real "bruce wayne"}
+   {:alias "sena" :real "alize"}
+   {:alias "baba" :real "baba"}])
 
+(map :alias identities)
 
+(defn cheque
+  "implementing this in reduce"
+  [nm om]
+  (let [[k v] om]
+    (assoc nm k (inc v))))
 
+(reduce cheque {} {:max 30 :min 10})
+
+(take 3 [1 2 3 4 5])
+(drop 3 [1 2 3 4 5])
+
+(defn check-under
+  "check the usage of `<`"
+  [m]
+  (< (:month m) 3))
+
+(check-under {:month 1 :day 1})
+
+(def journal [{:month 1 :day 1 :human 5.3 :critter 2.3}
+              {:month 1 :day 2 :human 5.1 :critter 2.0}
+              {:month 2 :day 1 :human 4.0 :critter 1.3}
+              {:month 3 :day 2 :human 2.3 :critter 4.3}])
+
+(take-while check-under journal)
+(drop-while check-under journal)
