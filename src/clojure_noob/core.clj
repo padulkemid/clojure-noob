@@ -263,5 +263,22 @@
               {:month 2 :day 1 :human 4.0 :critter 1.3}
               {:month 3 :day 2 :human 2.3 :critter 4.3}])
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; `core.clj` will act as a core of the core
+;;
+;; it has everything you will need to
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; better to `take-while` or `drop-while` while operating
+;; with vectors or maps, etc. [collections] because its
+;; more performant when you already have what you want
+;; it returns directly.
 (take-while check-under journal)
 (drop-while check-under journal)
+
+;; while filter, it needs to run for every data (e.g: in `journal`)
+;; it will go through every map here.
+(filter  #(< (:month %) 3) journal)
+
+;; cool bool check if needed
+(some #(> (:critter %) 5) journal)
