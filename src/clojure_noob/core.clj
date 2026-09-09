@@ -282,3 +282,60 @@
 
 ;; cool bool check if needed
 (some #(> (:critter %) 5) journal)
+
+(sort [3 1 3])
+
+;; sort is very helpful to check whether the data is okayish
+;; like character count as seen in the example
+(sort-by count ["abc" "a" "yu"])
+(concat [1 2] [3 4])
+
+;; lazy seq is needed for performance because processing data
+;; will be done after converting `seq` into coll
+;; either its vec, list, or map.
+
+(def vampire-database
+  {0 {:makes-blood-puns? false :has-pulse? true :name "sakor"}
+   1 {:makes-blood-puns? false :has-pulse? true :name "salok"}
+   2 {:makes-blood-puns? true :has-pulse? false :name "sanor"}})
+
+(defn vampire-related-details
+  "some sort of details with vampires"
+  [s]
+  (Thread/sleep 1000)
+  (get vampire-database s))
+
+(defn vampire?
+  "it will check the record"
+  [rec]
+  (and (:makes-blood-puns? rec)
+       (not (:has-pulse? rec))
+       rec))
+
+(defn identify-vampire
+  "it will check if the number is a vampire"
+  [s]
+  (first (filter vampire? (map vampire-related-details s))))
+
+;; (time (vampire-related-details 0)) ; the time difference is impeccable
+(time
+ ;; when assigned to a variable, `map` will return `lazy-seq` so
+ ;; its kinda "async" and return the elapsed time faster than ever
+ ;; actual function would directly return `Thread/sleep`
+ (def mapped-details
+   (map vampire-related-details
+        (range 0 100000))))
+
+;; (time (first mapped-details))
+;; (time (identify-vampire (range 0 10000)))
+;; repeat actually return INFINITE numbers of arg
+;; so in here, it will return infinite "oi"
+(concat (take 10 (repeat "oi")) ["olala"])
+
+;; same can be achieved with `repeatedly`
+(take 3 (repeatedly #(rand-int 10)))
+(defn even-nums
+  "will get you even nums infinitely"
+  ([] (even-nums 0))
+  ([n] (cons n (lazy-seq (even-nums (+ n 2))))))
+(take 20 (even-nums))
