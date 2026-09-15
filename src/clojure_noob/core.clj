@@ -193,12 +193,36 @@
 ;; write a function that is similart to [symmetrize-body-parts]
 ;; except that it has to work with radial symmetry. [5 body parts]
 ;; [REVISIT]
+;; PSEUDOCODE
 
 ;; write a function that generalizes [symmetrize-body-parts]
 ;; et (function you made above) and it should accept collection
 ;; and number of the parts of matchibg body (so not just 5 or 2)
 ;; but can be anything.
 ;; [REVISIT]
+;;
+;; lets make both:
+;; PSEUDOCODE
+;; 1. create an `nth` body parts so it should have its counter parts
+;; easily by adding a num? e.g: `foot-1, foot-2` since its not "asymmetrical"
+;; per se anymore.
+;; 2. make the number tokenizer so it will walk until the last "-"
+;; and then evaluate the number.
+;; 3. add a loop that checks everything like the remaining parts, etc.
+;; based on the properties of the last name.
+;; 4. OR EVEN better, we can use another keyword like `:part`
+;; 5. we can use `loop` or `reduce` should yield the same answer.
+(defn multiple-body-parts
+  "it will define the multiple body parts and which part it belongs"
+  [name size part]
+  {:name name :size size :part part})
+
+(def body-parts-name ["head"
+                      "torso"
+                      "hand"
+                      "leg"])
+
+(mapv #(multiple-body-parts % (inc (rand-int 5)) 1) body-parts-name)
 
 ;;; Chapter 4
 ;; colls
